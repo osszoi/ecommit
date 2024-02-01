@@ -221,6 +221,4 @@ const threshold =
 const isDryRun = args.indexOf('--dry-run') !== -1;
 const isVerbose = args.indexOf('--verbose') !== -1;
 
-main();
-
-// Change to test script
+module.exports = main
