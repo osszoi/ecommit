@@ -1,6 +1,6 @@
 {
   "name": "ecommit",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A simple commit command that will also upgrade your package version",
   "main": "index.js",
   "scripts": {
@@ -10,10 +10,13 @@
     "type": "git",
     "url": "git+https://github.com/osszoi/ecommit.git"
   },
-  "author": "Eduardo Lorenzo",
+  "author": "Eduardo Lorenzo (ejlorenzo19@gmail.com)",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/osszoi/ecommit/issues"
   },
-  "homepage": "https://github.com/osszoi/ecommit#readme"
+  "homepage": "https://github.com/osszoi/ecommit#readme",
+  "bin": {
+    "ecommit": "./index.js"
+  }
 }
