@@ -157,12 +157,7 @@ async function updatePackageJsonVersion(pendingLines) {
         JSON.stringify(parsedPackageJson, null, 2),
         'utf8'
       );
-
-      console.log({ fileSaveResult })
     }
-
-    // hack?
-    await new Promise(r => setTimeout(r, 10000))
 
     if (isDebug && !isDryRun) log("File saved")
 
@@ -222,8 +217,6 @@ async function main() {
       await execPromise(releaseCommand);
     }
   }
-
-  return;
 
   if (!isDryRun) {
     print('Pushing changes');
