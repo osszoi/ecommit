@@ -152,11 +152,13 @@ async function updatePackageJsonVersion(pendingLines) {
     if (!isDryRun) {
       if (isDebug) log("Saving new package.json...")
 
-      await writeFilePromise(
+      const fileSaveResult = await writeFilePromise(
         packageJsonPath,
         JSON.stringify(parsedPackageJson, null, 2),
         'utf8'
       );
+
+      console.log({ fileSaveResult })
     }
 
     // hack?
