@@ -162,7 +162,7 @@ async function updatePackageJsonVersion(pendingLines) {
     // hack?
     await new Promise(r => setTimeout(r, 2000))
 
-    if (isDebug) log("File saved")
+    if (isDebug && !isDryRun) log("File saved")
 
     return parsedPackageJson.version;
   } catch (error) {
@@ -193,8 +193,8 @@ async function main() {
     pendingLinesToCommit + alreadyCommitedLines
   );
 
-  if (isDebug) log(`New version is v${netVersion} and it has been saved to package.json`)
-
+  if (isDebug) log(`New version is v${newVersion} and it has been saved to package.json`)
+  return;
   // Git stuff
   if (pendingLinesToCommit > 0) {
     print(
