@@ -21,3 +21,4 @@ ecommit -m "Your commit message!"
 - `--verbose`: show all commands runned
 - `--dry-run`: perform a run without actually pushing nor modifying package version
 - `--threshold`: indicate how many lines changes are required to change minor version instead of patch version. Defaults to 100
+- `--debug`: show logs

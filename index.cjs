@@ -44,18 +44,22 @@ const BgGray = '\x1b[100m';
 /* /Colors */
 
 function printRunCommand(cmd) {
-  console.log(`${FgGray}[COMMAND]: ${cmd}${Reset}`);
+  console.log(`${BgWhite}[COMMAND]: ${cmd}${Reset}`);
 }
 
 function print(msg) {
   console.log(`${FgGreen}${msg}${Reset}`);
 }
 
+function log(msg) {
+  console.log(`${BgGray}${msg}${Reset}`)
+}
+
 function getLinesChangesFromOutput(stdout) {
   return stdout
     .split('\n')
     .map((line) => {
-      // const filesChangedMatch = line.match(/(\d+)\s+file\S*\s+changed\S*\s*/);
+      const filesChangedMatch = line.match(/(\d+)\s+file\S*\s+changed\S*\s*/);
 
       const insertionsChangedMatch = line.match(
         /(\d*)\s*insertion\S*\(\+\)?\s*/
@@ -65,9 +69,9 @@ function getLinesChangesFromOutput(stdout) {
 
       let total = 0;
 
-      // if (filesChangedMatch) {
-      //   total += Number(filesChangedMatch[1]);
-      // }
+      if (filesChangedMatch) {
+        total += Number(filesChangedMatch[1]);
+      }
 
       if (insertionsChangedMatch) {
         total += Number(insertionsChangedMatch[1]);
@@ -123,8 +127,11 @@ async function updatePackageJsonVersion(pendingLines) {
     const packageJson = await readFilePromise(packageJsonPath, 'utf8');
     const parsedPackageJson = JSON.parse(packageJson);
 
+    if (isDebug) log(`Current version: ${parsedPackageJson.version}`)
+
     // Assuming the version is in the format X.Y.Z
     const versionParts = parsedPackageJson.version.split('.').map(Number);
+
 
     if (pendingLines < threshold) {
       versionParts[2]++;
@@ -143,12 +150,19 @@ async function updatePackageJsonVersion(pendingLines) {
 
     // Write back to package.json
     if (!isDryRun) {
+      if (isDebug) log("Saving new package.json...")
+
       await writeFilePromise(
         packageJsonPath,
         JSON.stringify(parsedPackageJson, null, 2),
         'utf8'
       );
     }
+
+    // hack?
+    await new Promise(r => setTimeout(r, 2000))
+
+    if (isDebug) log("File saved")
 
     return parsedPackageJson.version;
   } catch (error) {
@@ -169,17 +183,19 @@ async function main() {
     return;
   }
 
-  // Update package json
-  const newVersion = await updatePackageJsonVersion(
-    pendingLinesToCommit + alreadyCommitedLines
-  );
-
-  // Git stuff
   if (pendingLinesToCommit > 0 && !commitMessage)
     throw new Error(
       'There are pending lines to commit, you must include a commit message (use --m flag like git commit)'
     );
 
+  // Update package json
+  const newVersion = await updatePackageJsonVersion(
+    pendingLinesToCommit + alreadyCommitedLines
+  );
+
+  if (isDebug) log(`New version is v${netVersion} and it has been saved to package.json`)
+
+  // Git stuff
   if (pendingLinesToCommit > 0) {
     print(
       `Commiting ${pendingLinesToCommit} pending lines with message: "${commitMessage}"`
@@ -220,6 +236,7 @@ const threshold =
 
 const isDryRun = args.indexOf('--dry-run') !== -1;
 const isVerbose = args.indexOf('--verbose') !== -1;
+const isDebug = args.indexOf('--debug') !== -1;
 
 module.exports = {
   main
