@@ -1,6 +1,6 @@
 {
   "name": "ecommit",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A simple commit command that will also upgrade your package version",
   "main": "index.js",
   "scripts": {
@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/osszoi/ecommit#readme",
   "bin": {
-    "ecommit": "./index.js"
+    "ecommit": "./bin/ecommit.js"
   }
 }
