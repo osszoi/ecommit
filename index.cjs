@@ -44,7 +44,7 @@ const BgGray = '\x1b[100m';
 /* /Colors */
 
 function printRunCommand(cmd) {
-  console.log(`${BgWhite}[COMMAND]: ${cmd}${Reset}`);
+  console.log(`${FgGray}[COMMAND]: ${cmd}${Reset}`);
 }
 
 function print(msg) {
