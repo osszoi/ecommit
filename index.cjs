@@ -165,7 +165,7 @@ async function main() {
   print(`Already commited lines pending to push: ${alreadyCommitedLines}`);
 
   if (pendingLinesToCommit + alreadyCommitedLines === 0) {
-    print(`✔️ No changes`);
+    print(`✅ No changes`);
     return;
   }
 
