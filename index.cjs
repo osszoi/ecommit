@@ -196,7 +196,7 @@ async function main() {
   );
 
   if (isDebug) log(`New version is v${newVersion} and it has been saved to package.json`)
-  return;
+  
   // Git stuff
   if (pendingLinesToCommit > 0) {
     print(
@@ -209,7 +209,21 @@ async function main() {
 
       await execPromise(pendingCommand);
     }
+  } else {
+    // We need to update package version anyway
+    print(
+      `Commiting package.json version with message: "release: v${newVersion}"`
+    );
+
+    if (!isDryRun) {
+      const releaseCommand = `git add . && git commit -m "release: v${newVersion}"`;
+      if (isVerbose) printRunCommand(releaseCommand);
+
+      await execPromise(releaseCommand);
+    }
   }
+
+  return;
 
   if (!isDryRun) {
     print('Pushing changes');
