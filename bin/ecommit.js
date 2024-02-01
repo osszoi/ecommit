@@ -7,7 +7,7 @@
 var cli = require(__dirname + '/../index.cjs');
 if (!cli.autoRun) {
   console.log(cli)
-  cli.default().catch(function(error) {
+  cli.main().catch(function(error) {
     console.error(error.stack || error.message || error);
     process.exitCode = 1;
   });
