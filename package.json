@@ -1,6 +1,6 @@
 {
   "name": "ecommit",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "A simple commit command that will also upgrade your package version",
   "main": "index.js",
   "scripts": {
