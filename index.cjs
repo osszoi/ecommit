@@ -241,7 +241,7 @@ const commitMessage =
 
 const thresholdIndex = args.indexOf('--threshold');
 const threshold =
-  thresholdIndex !== -1 ? (Number(args[thresholdIndex + 1]) ?? 100) : 100;
+  thresholdIndex !== -1 ? (Number(args[thresholdIndex + 1]) ?? 400) : 400;
 
 const isDryRun = args.indexOf('--dry-run') !== -1;
 const isVerbose = args.indexOf('--verbose') !== -1;
