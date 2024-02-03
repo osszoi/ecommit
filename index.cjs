@@ -212,7 +212,7 @@ async function main() {
   );
 
   if (!isDryRun) {
-    const releaseCommand = `git add . && git commit -m "release: v${newVersion}"`;
+    const releaseCommand = `git add . && git commit -m "🚀 release: v${newVersion}"`;
     if (isVerbose) printRunCommand(releaseCommand);
 
     await execPromise(releaseCommand);
