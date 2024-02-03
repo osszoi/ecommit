@@ -185,14 +185,6 @@ async function main() {
       'There are pending lines to commit, you must include a commit message (use --m flag like git commit)'
     );
 
-  // Update package json
-  const newVersion = await updatePackageJsonVersion(
-    pendingLinesToCommit + alreadyCommitedLines
-  );
-
-  if (isDebug) log(`New version is v${newVersion} and it has been saved to package.json`)
-  
-  // Git stuff
   if (pendingLinesToCommit > 0) {
     print(
       `Commiting ${pendingLinesToCommit} pending lines with message: "${commitMessage}"`
@@ -204,18 +196,26 @@ async function main() {
 
       await execPromise(pendingCommand);
     }
-  } else {
-    // We need to update package version anyway
-    print(
-      `Commiting package.json version with message: "release: v${newVersion}"`
-    );
+  }
 
-    if (!isDryRun) {
-      const releaseCommand = `git add . && git commit -m "release: v${newVersion}"`;
-      if (isVerbose) printRunCommand(releaseCommand);
+  // Update package json
+  const newVersion = await updatePackageJsonVersion(
+    pendingLinesToCommit + alreadyCommitedLines
+  );
 
-      await execPromise(releaseCommand);
-    }
+  if (isDebug) log(`New version is v${newVersion} and it has been saved to package.json`)
+  
+  // Git stuff
+  // We need to update package version anyway
+  print(
+    `Commiting package.json version with message: "🚀 release: v${newVersion}"`
+  );
+
+  if (!isDryRun) {
+    const releaseCommand = `git add . && git commit -m "release: v${newVersion}"`;
+    if (isVerbose) printRunCommand(releaseCommand);
+
+    await execPromise(releaseCommand);
   }
 
   if (!isDryRun) {
